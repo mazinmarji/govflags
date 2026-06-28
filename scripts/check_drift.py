@@ -1,66 +1,38 @@
 #!/usr/bin/env python3
 """Drift gate for GovFlags (BRD G-5).
 
-The control artifacts (AGENTS.md and everything under .nyx-out/) are *build
-output* of ``govflags.nyx``. This script re-runs ``nornyx check`` + ``nornyx
-generate`` into a throwaway directory and fails if the committed root
-``AGENTS.md`` differs from the freshly generated one. That keeps the contract as
-the single source of truth: edit the .nyx, regenerate, or CI fails loudly.
+Uses Nornyx's full-output drift gate (`nornyx drift`), which compares EVERY
+generated artifact by hash — not just AGENTS.md. The earlier AGENTS.md-only
+gate was blind to policy.yaml changes; this one is not. Also confirms the root
+AGENTS.md (the copy tools read) matches the generated one.
 
-Usage:
-    python scripts/check_drift.py
-Exit codes: 0 = in sync, 1 = drift or contract error.
+Usage: python scripts/check_drift.py   (exit 0 = in sync, 1 = drift)
 """
 
 from __future__ import annotations
 
 import subprocess
 import sys
-import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = ROOT / "govflags.nyx"
+GEN_DIR = ROOT / ".nyx-out"
 ROOT_AGENTS = ROOT / "AGENTS.md"
 
 
-def _run(*args: str) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
-        [sys.executable, "-m", "nornyx.cli", *args],
-        cwd=ROOT,
-        capture_output=True,
-        text=True,
-    )
-
-
 def main() -> int:
-    check = _run("check", str(CONTRACT))
-    if check.returncode != 0:
-        sys.stderr.write(check.stdout + check.stderr)
-        sys.stderr.write("\nContract failed `nornyx check`.\n")
+    drift = subprocess.run(
+        [sys.executable, "-m", "nornyx.cli", "drift", str(CONTRACT), "--out", str(GEN_DIR)],
+        cwd=ROOT,
+    )
+    if drift.returncode != 0:
         return 1
-
-    with tempfile.TemporaryDirectory() as tmp:
-        gen = _run("generate", str(CONTRACT), "--out", tmp)
-        if gen.returncode != 0:
-            sys.stderr.write(gen.stdout + gen.stderr)
-            return 1
-        fresh_agents = (Path(tmp) / "AGENTS.md").read_text(encoding="utf-8")
-
-    if not ROOT_AGENTS.is_file():
-        sys.stderr.write("AGENTS.md is missing at the repo root.\n")
+    # The root AGENTS.md is a copy of the generated one; keep them identical.
+    if ROOT_AGENTS.read_text(encoding="utf-8") != (GEN_DIR / "AGENTS.md").read_text(encoding="utf-8"):
+        sys.stderr.write("Root AGENTS.md differs from .nyx-out/AGENTS.md; re-copy it.\n")
         return 1
-
-    committed = ROOT_AGENTS.read_text(encoding="utf-8")
-    if committed != fresh_agents:
-        sys.stderr.write(
-            "DRIFT: AGENTS.md is out of sync with govflags.nyx.\n"
-            "Fix: nornyx generate govflags.nyx --out .nyx-out "
-            "&& cp .nyx-out/AGENTS.md AGENTS.md\n"
-        )
-        return 1
-
-    print("Drift gate OK: AGENTS.md matches govflags.nyx.")
+    print("Drift gate OK: all generated artifacts and root AGENTS.md match govflags.nyx.")
     return 0
 
 

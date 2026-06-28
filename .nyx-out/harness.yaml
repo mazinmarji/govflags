@@ -1,0 +1,23 @@
+harnesses:
+- name: DeliveryHarness
+  context: RepoContext
+  flow:
+  - agent: Builder
+    action: implement
+  - tool: tests
+    action: run
+  - eval: GovFlagsEval
+    action: run
+  - agent: Reviewer
+    action: review
+  - evidence: DeliveryEvidence
+    action: pack
+  repair:
+  - 'on': test_failure
+    agent: Builder
+    action: repair
+    max_attempts: 3
+  gate:
+  - require: tests.pass
+  - require: deterministic_evaluation
+  - require: human_approval_before_merge

@@ -1,0 +1,9 @@
+traces:
+- name: DeliveryTrace
+  standard: OpenTelemetry.GenAI
+  capture:
+  - tool_call
+  - policy_decision
+  - approval_event
+  - file_change
+  - evidence_created

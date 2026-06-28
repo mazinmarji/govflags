@@ -21,8 +21,8 @@ jobs:
       # repo are exactly what it generates (BRD G-5 — no drift).
       - name: Nornyx check
         run: nornyx check govflags.nyx
-      - name: Drift gate (AGENTS.md == generated)
-        run: python scripts/check_drift.py
+      - name: Drift gate (full generated set == contract)
+        run: nornyx drift govflags.nyx --out .nyx-out
 
       - name: Tests
         run: pytest -q

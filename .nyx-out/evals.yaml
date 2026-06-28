@@ -1,0 +1,6 @@
+evals:
+- name: GovFlagsEval
+  metrics:
+  - tests_pass == true
+  - evaluation_is_deterministic == true
+  - no_secret_exposure == true

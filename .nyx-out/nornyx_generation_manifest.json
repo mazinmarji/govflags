@@ -1,0 +1,81 @@
+{
+  "schema": "nornyx.generation_manifest.v0.1",
+  "project": "GovFlags",
+  "generated_by": "nornyx v0.1 scaffold",
+  "source_blocks": [
+    "agents",
+    "approvals",
+    "budgets",
+    "constitution",
+    "contexts",
+    "evals",
+    "evidence",
+    "harnesses",
+    "intents",
+    "nornyx",
+    "policies",
+    "project",
+    "skills",
+    "traces"
+  ],
+  "artifact_count": 11,
+  "artifacts": [
+    "AGENTS.md",
+    "context.yaml",
+    "evals.yaml",
+    "evidence_contract.md",
+    "goals.yaml",
+    "harness.yaml",
+    "policy.yaml",
+    "skills/EvidencePack/README.md",
+    "skills/PatchBuilder/README.md",
+    "skills/TestRepair/README.md",
+    "trace.yaml"
+  ],
+  "artifact_hashes": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "d4c6fbb05d34eacb0c96ca8438f82e86d5a470986fb92b77c494d15ed06cd49a"
+    },
+    {
+      "path": "context.yaml",
+      "sha256": "d320c4eddd2257e121adc25c9e1cc144150a1a72d70894b3d6062fda94480757"
+    },
+    {
+      "path": "evals.yaml",
+      "sha256": "f3998772c2dd63ba028f4be56a8b368946f30fbd353b14397908f7ed7588b68e"
+    },
+    {
+      "path": "evidence_contract.md",
+      "sha256": "babe3427c898d929b53e4ce98743143e52beacd499250f56413fc683e8f6fac4"
+    },
+    {
+      "path": "goals.yaml",
+      "sha256": "9ef144be492e2a81b75135cfbb4d9a200cf17c933b29beea2de56a3454d87eaf"
+    },
+    {
+      "path": "harness.yaml",
+      "sha256": "ddc299a93aa75c0ca306c2739f0ed582133d5e3ed3bcc56a7a05029a83b5268a"
+    },
+    {
+      "path": "policy.yaml",
+      "sha256": "2c621091708c5429485e0b2400ccfe2291eedd56f69144f0a990d4158c9c0c73"
+    },
+    {
+      "path": "skills/EvidencePack/README.md",
+      "sha256": "7a8d23849be39dc63d9cc0320a032eda63345defe84a4e9cf3fde9ae3a7a5886"
+    },
+    {
+      "path": "skills/PatchBuilder/README.md",
+      "sha256": "5059a0bdcef8b56ec503aed5c081720aa5d9fc046b2a742dac8562cac8804368"
+    },
+    {
+      "path": "skills/TestRepair/README.md",
+      "sha256": "bd461df5684f33865cdd851c8c078073614d5b4a560541cf2ebdafa04b7cdf3e"
+    },
+    {
+      "path": "trace.yaml",
+      "sha256": "018c7406137a11793b90ed5e560d524e1164205daacea878c64ae5cdc7093cb4"
+    }
+  ]
+}

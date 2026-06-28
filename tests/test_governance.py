@@ -31,7 +31,7 @@ def test_contract_passes_nornyx_check():
     assert result.returncode == 0, result.stdout + result.stderr
 
 
-def test_no_drift_between_contract_and_agents_md():  # G-5
+def test_no_drift_between_contract_and_generated_artifacts():  # G-5 (whole output)
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts" / "check_drift.py")],
         cwd=ROOT,
