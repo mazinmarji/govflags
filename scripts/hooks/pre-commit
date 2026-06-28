@@ -1,0 +1,5 @@
+#!/bin/sh
+# GovFlags pre-commit drift gate (BRD G-5).
+# Install with:  cp scripts/hooks/pre-commit .git/hooks/pre-commit
+# Fails the commit if AGENTS.md drifts from govflags.nyx.
+python scripts/check_drift.py || exit 1
